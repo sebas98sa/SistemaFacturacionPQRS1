@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component; // <-- Línea corregida
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -34,30 +34,44 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
+        System.out.println("--- JwtRequestFilter: Procesando petición a " + request.getRequestURI() + " ---");
+
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7); // Extrae el token (después de "Bearer ")
+            jwt = authorizationHeader.substring(7);
+            System.out.println("JwtRequestFilter: Token JWT encontrado: " + jwt);
             try {
-                username = jwtUtil.extractUsername(jwt); // Extrae el nombre de usuario del token
+                username = jwtUtil.extractUsername(jwt);
+                System.out.println("JwtRequestFilter: Username extraído: " + username);
             } catch (Exception e) {
-                // Log the exception for debugging, but don't expose sensitive info
-                System.err.println("Error al extraer el nombre de usuario del JWT o token inválido: " + e.getMessage());
+                System.err.println("JwtRequestFilter: ERROR al extraer username o token inválido: " + e.getMessage());
+                // Aquí puedes decidir qué hacer si el token es inválido (ej. enviar 401)
+                // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                // return;
             }
+        } else {
+            System.out.println("JwtRequestFilter: No se encontró cabecera Authorization o no empieza con Bearer.");
         }
 
-        // Si el nombre de usuario es válido y no hay autenticación actual en el contexto de seguridad
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+            System.out.println("JwtRequestFilter: Autenticando usuario: " + username);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // Si el token es válido, configura la autenticación en el contexto de seguridad
             if (jwtUtil.validateToken(jwt, userDetails)) {
+                System.out.println("JwtRequestFilter: Token VALIDADO para usuario: " + username + ". Estableciendo autenticación.");
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            } else {
+                System.out.println("JwtRequestFilter: Token NO VÁLIDO para usuario: " + username);
             }
+        } else if (username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+            System.out.println("JwtRequestFilter: Usuario ya autenticado en el contexto: " + username);
+        } else {
+            System.out.println("JwtRequestFilter: Username es nulo o no hay autenticación en el contexto.");
         }
-        chain.doFilter(request, response); // Continúa con la cadena de filtros
+        chain.doFilter(request, response);
+        System.out.println("--- JwtRequestFilter: Petición a " + request.getRequestURI() + " PROCESADA ---");
     }
 }

@@ -1,6 +1,11 @@
 // frontend/src/components/Auth/LoginForm.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Importaciones de MUI
+import {
+    Box, Button, TextField, Typography, Paper, Link as MuiLink // Renombrar Link para evitar conflicto
+} from '@mui/material';
+import GoogleIcon from '@mui/icons-material/Google'; // Icono de Google
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -23,13 +28,10 @@ function LoginForm() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Inicio de sesión exitoso:', data);
-                // Guarda el token JWT y el rol del usuario en localStorage
-                localStorage.setItem('jwtToken', data.jwtToken); // <-- Guarda el JWT
-                localStorage.setItem('userRole', data.userRole); // Guarda el rol (opcional, para lógica de frontend)
-                localStorage.setItem('userEmail', data.userEmail); // Guarda el email (opcional)
-
-                navigate('/dashboard'); // Redirige al dashboard
+                localStorage.setItem('jwtToken', data.jwtToken);
+                localStorage.setItem('userRole', data.userRole);
+                localStorage.setItem('userEmail', data.userEmail);
+                navigate('/dashboard');
             } else {
                 const errorText = await response.text();
                 setError(errorText || 'Error al iniciar sesión. Credenciales inválidas.');
@@ -44,37 +46,79 @@ function LoginForm() {
         navigate('/forgot-password');
     };
 
+    const handleGoogleLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorize/google';
+    };
+
     return (
-        <div className="login-container">
-            <form className="login-form" onSubmit={handleSubmit}>
-                <h2>Inicio de Sesión</h2>
-                {error && <p className="error-message">{error}</p>}
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '100vh',
+                backgroundColor: 'background.default', // Usar color del tema
+            }}
+        >
+            <Paper elevation={6} sx={{ padding: 4, borderRadius: 3, textAlign: 'center', width: 350 }}>
+                <Typography variant="h5" component="h1" gutterBottom>
+                    Inicio de Sesión
+                </Typography>
+                {error && (
+                    <Typography color="error" variant="body2" sx={{ mb: 2 }}>
+                        {error}
+                    </Typography>
+                )}
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
                         id="email"
+                        label="Email"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+                        variant="outlined"
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Contraseña</label>
-                    <input
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Contraseña"
                         type="password"
                         id="password"
+                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+                        variant="outlined"
                     />
-                </div>
-                <button type="submit">Iniciar sesión</button>
-                <p className="forgot-password-link" onClick={handleForgotPassword}>
-                    Recuperar contraseña
-                </p>
-            </form>
-        </div>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Iniciar sesión
+                    </Button>
+                    <MuiLink component="button" variant="body2" onClick={handleForgotPassword} sx={{ mt: 1 }}>
+                        Recuperar contraseña
+                    </MuiLink>
+                    <Button
+                        fullWidth
+                        variant="outlined" // O contained, según tu preferencia
+                        sx={{ mt: 2, mb: 1, backgroundColor: '#4285f4', color: 'white', '&:hover': { backgroundColor: '#357ae8' } }}
+                        startIcon={<GoogleIcon />}
+                        onClick={handleGoogleLogin}
+                    >
+                        Iniciar sesión con Google
+                    </Button>
+                </Box>
+            </Paper>
+        </Box>
     );
 }
 

@@ -1,123 +1,50 @@
 /* frontend/src/App.css */
+/* Mantener solo los estilos que no son manejados por MUI o que son muy específicos */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  /* MUI usa Roboto por defecto, así que puedes quitar las fuentes aquí si usas CssBaseline */
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f2f5; /* Fondo claro */
+  /* El color de fondo ahora se define en el tema MUI */
+  /* background-color: #f0f2f5; */
 }
 
-.App {
+/* El componente App ya no necesita display: flex; flex-direction: column; si usas Box en App.js */
+/* .App {
   display: flex;
-  flex-direction: column; /* Cambiado a columna para el header */
+  flex-direction: column;
   min-height: 100vh;
-}
+} */
 
-/* Header */
-.app-header {
-  background-color: #2196f3; /* Azul primario */
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+/* Header: La mayoría de los estilos del header se manejarán con AppBar de MUI */
+/* .app-header, .header-left, .header-logo, .app-header h1, .logout-button se pueden quitar */
 
-.header-left {
-  display: flex;
-  align-items: center;
-}
+/* Sidebar: La mayoría de los estilos del sidebar se manejarán con Drawer de MUI */
+/* .dashboard-layout, .sidebar, .sidebar nav ul, .sidebar nav ul li, .sidebar nav ul li a se pueden quitar */
 
-.header-logo {
-  height: 40px; /* Ajusta el tamaño de tu logo */
-  margin-right: 15px;
-}
+/* Contenido principal: El margen izquierdo y el padding se manejan con Box en App.js */
+/* .content-with-sidebar se puede simplificar o quitar */
 
-.app-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.logout-button {
-  background-color: #f44336; /* Rojo */
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-/* Layout con Sidebar */
-.dashboard-layout {
-  display: flex; /* Para poner sidebar y contenido uno al lado del otro */
-  flex-grow: 1; /* Para que ocupe el espacio restante */
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #333; /* Color oscuro para el sidebar */
-  color: white;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar nav ul li {
-  margin-bottom: 10px;
-}
-
-.sidebar nav ul li a {
-  color: white;
-  text-decoration: none;
-  padding: 10px 15px;
-  display: block;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.sidebar nav ul li a:hover {
-  background-color: #555;
-}
-
-.content-with-sidebar {
-  flex-grow: 1; /* El contenido ocupa el resto del espacio */
-  padding: 20px;
-  background-color: #f0f2f5;
-}
-
-
-/* Contenedor de Login/Formularios */
-.login-container, .forgot-password-container {
+/* Contenedor de Login/Formularios: La mayoría de los estilos se manejarán con Box y Paper de MUI */
+.login-container, .forgot-password-container, .product-form-container,
+.cliente-form-container, .factura-form-container, .pqrs-form-container,
+.metodopago-form-container, .configuracion-form-container, .user-form-container,
+.oauth2-redirect-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #e3f2fd; /* Un azul claro como en tu diseño */
+  /* El color de fondo ahora se define en el tema MUI */
+  /* background-color: #e3f2fd; */
 }
 
-.login-form, .forgot-password-form {
-  background-color: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 350px;
-  text-align: center;
-}
+/* Los formularios internos (login-form, etc.) se manejarán con Paper de MUI */
+/* .login-form, .forgot-password-form, etc. se pueden quitar */
 
-.login-form h2, .forgot-password-form h2 {
-  margin-bottom: 30px;
-  color: #333;
-}
-
+/* Grupos de formulario: TextField de MUI maneja la mayoría de estos */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
@@ -127,49 +54,14 @@ body {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
-  color: #555;
+  color: #555; /* Mantener si quieres un color de label específico */
 }
 
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group input[type="text"],
-.form-group input[type="number"] {
-  width: calc(100% - 20px); /* Ajusta padding */
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-}
+/* Los inputs se manejarán con TextField de MUI */
+/* .form-group input[type="email"], etc. se pueden quitar */
 
-button[type="submit"] {
-  background-color: #2196f3; /* Azul primario */
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-  background-color: #1976d2; /* Azul más oscuro */
-}
-
-button[type="button"] { /* Estilo para botones que no son submit */
-  background-color: #6c757d; /* Gris */
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-left: 5px;
-}
-
+/* Botones: Los botones se manejarán con Button de MUI */
+/* button[type="submit"], button[type="button"] se pueden quitar */
 
 .forgot-password-link, .back-to-login {
   color: #2196f3;
@@ -181,7 +73,7 @@ button[type="button"] { /* Estilo para botones que no son submit */
 }
 
 .error-message {
-  color: #f44336; /* Rojo */
+  color: #f44336;
   background-color: #ffebee;
   border: 1px solid #f44336;
   padding: 10px;
@@ -191,7 +83,7 @@ button[type="button"] { /* Estilo para botones que no son submit */
 }
 
 .success-message {
-  color: #4CAF50; /* Verde */
+  color: #4CAF50;
   background-color: #e8f5e9;
   border: 1px solid #4CAF50;
   padding: 10px;
@@ -200,116 +92,16 @@ button[type="button"] { /* Estilo para botones que no son submit */
   font-size: 14px;
 }
 
-/* Estilos para Tarjetas de Resumen (Dashboard) */
-.summary-cards {
-  display: flex;
-  justify-content: space-around;
-  gap: 20px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
+/* Estilos para Tarjetas de Resumen (Dashboard): Card de MUI maneja la mayoría */
+/* .summary-cards, .summary-cards .card, etc. se pueden quitar */
 
-.summary-cards .card {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  flex: 1; /* Para que las tarjetas ocupen el mismo espacio */
-  min-width: 200px; /* Ancho mínimo para cada tarjeta */
-}
+/* Estilos para Secciones de Dashboard (Gráficos, Notificaciones): Paper de MUI maneja la mayoría */
+/* .dashboard-sections, .dashboard-sections .section, etc. se pueden quitar */
 
-.summary-cards .card h3 {
-  color: #3f51b5; /* Azul más oscuro */
-  margin-top: 0;
-  font-size: 18px;
-}
+/* Estilos para Acceso Rápido (Dashboard): Button de MUI maneja la mayoría */
+/* .quick-access, .quick-access a se pueden quitar */
 
-.summary-cards .card p {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-}
-
-/* Estilos para Secciones de Dashboard (Gráficos, Notificaciones) */
-.dashboard-sections {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-}
-
-.dashboard-sections .section {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  flex: 1; /* Para que ocupen el mismo ancho */
-  min-width: 300px;
-}
-
-.dashboard-sections .section h3 {
-  color: #3f51b5;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.chart-placeholder {
-  background-color: #f0f0f0;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  color: #777;
-}
-
-.notifications ul {
-  list-style: none;
-  padding: 0;
-}
-
-.notifications ul li {
-  background-color: #f9f9f9;
-  border: 1px solid #eee;
-  padding: 10px 15px;
-  margin-bottom: 8px;
-  border-radius: 5px;
-  font-size: 15px;
-  color: #444;
-}
-
-/* Estilos para Acceso Rápido (Dashboard) */
-.quick-access {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.quick-access h3 {
-  color: #3f51b5;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.quick-access a {
-  display: inline-block;
-  background-color: #e0f2f7; /* Azul claro */
-  color: #2196f3;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-right: 15px;
-  margin-bottom: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.quick-access a:hover {
-  background-color: #bbdefb; /* Azul un poco más oscuro */
-}
-
-/* Estilos para Tablas */
+/* Estilos para Tablas: Table, TableHead, TableBody, TableRow, TableCell de MUI manejarán esto */
 table {
   width: 100%;
   border-collapse: collapse;

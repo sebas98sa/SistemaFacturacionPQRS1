@@ -1,23 +1,84 @@
 // frontend/src/components/Dashboard/Sidebar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Importaciones de MUI
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+// Iconos de Material-UI (ejemplos)
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import PaymentIcon from '@mui/icons-material/Payment';
+import SettingsIcon from '@mui/icons-material/Settings';
+import GroupIcon from '@mui/icons-material/Group';
+
+const drawerWidth = 240; // Ancho del sidebar
 
 function Sidebar() {
     return (
-        <aside className="sidebar">
-            <nav>
-                <ul>
-                    <li><Link to="/dashboard">Dashboard</Link></li> {/* [cite: 77, 98, 113, 124, 138] */}
-                    <li><Link to="/clientes">Gestión de Clientes</Link></li> {/* [cite: 78, 100, 115, 126, 140] */}
-                    <li><Link to="/facturas">Gestión de Facturas</Link></li> {/* [cite: 79, 101, 116, 127, 141] */}
-                    <li><Link to="/productos">Gestión de Productos</Link></li> {/* [cite: 87, 102, 117, 128, 136, 142] */}
-                    <li><Link to="/pqrs">PQRS</Link></li> {/* [cite: 90, 104, 119, 130, 133, 144] */}
-                    <li><Link to="/metodospago">Métodos de Pago</Link></li> {/* [cite: 90, 103, 118, 129, 143] */}
-                    <li><Link to="/configuracion">Configuración de Sistema</Link></li> {/* [cite: 91, 97, 105, 112, 120, 123, 131, 145] */}
-                    <li><Link to="/usuarios">Gestión de Usuarios y Roles</Link></li> {/* [cite: 92, 106, 121, 132, 146] */}
-                </ul>
-            </nav>
-        </aside>
+        <Drawer
+            variant="permanent"
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor: 'secondary.main', color: 'white' },
+            }}
+        >
+            <Toolbar /> {/* Espacio para el AppBar */}
+            <Box sx={{ overflow: 'auto' }}>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/dashboard">
+                            <ListItemIcon sx={{ color: 'white' }}><DashboardIcon /></ListItemIcon>
+                            <ListItemText primary="Dashboard" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/clientes">
+                            <ListItemIcon sx={{ color: 'white' }}><PeopleIcon /></ListItemIcon>
+                            <ListItemText primary="Gestión de Clientes" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/facturas">
+                            <ListItemIcon sx={{ color: 'white' }}><ReceiptIcon /></ListItemIcon>
+                            <ListItemText primary="Gestión de Facturas" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/productos">
+                            <ListItemIcon sx={{ color: 'white' }}><InventoryIcon /></ListItemIcon>
+                            <ListItemText primary="Gestión de Productos" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/pqrs">
+                            <ListItemIcon sx={{ color: 'white' }}><FeedbackIcon /></ListItemIcon>
+                            <ListItemText primary="PQRS" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/metodospago">
+                            <ListItemIcon sx={{ color: 'white' }}><PaymentIcon /></ListItemIcon>
+                            <ListItemText primary="Métodos de Pago" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/configuracion">
+                            <ListItemIcon sx={{ color: 'white' }}><SettingsIcon /></ListItemIcon>
+                            <ListItemText primary="Configuración de Sistema" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/usuarios">
+                            <ListItemIcon sx={{ color: 'white' }}><GroupIcon /></ListItemIcon>
+                            <ListItemText primary="Gestión de Usuarios y Roles" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Box>
+        </Drawer>
     );
 }
 

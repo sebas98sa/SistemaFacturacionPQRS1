@@ -1,82 +1,131 @@
 // frontend/src/components/Dashboard/Dashboard.js
 import React from 'react';
-import { Link } from 'react-router-dom'; // Para la navegación entre módulos
-import Sidebar from './Sidebar'; // Lo crearemos a continuación
-import Header from '../Shared/Header'; // Lo crearemos a continuación
+import { Link } from 'react-router-dom';
+// Importaciones de MUI
+import {
+    Box, Grid, Paper, Typography, Card, CardContent, List, ListItem, ListItemText, Button
+} from '@mui/material';
+import Sidebar from './Sidebar';
+import Header from '../Shared/Header';
 
 function Dashboard() {
     // Simular datos para gráficos y notificaciones (reemplazar con llamadas a la API)
-    const totalFacturado = "$50,000"; // [cite: 81]
-    const pagosPendientes = "$10,000"; // [cite: 82]
-    const ticketsAbiertos = 5; // [cite: 84]
-    const ticketsEnProceso = 3; // [cite: 85]
-    const notificaciones = [ // [cite: 107]
-        "Factura #2023-001 ha sido pagada.", // [cite: 108]
-        "Nuevo PQRS: Queja de Juan Pérez.", // [cite: 109]
-        "Recordatorio: Pago pendiente de Cliente A.", // [cite: 110]
+    const totalFacturado = "$50,000";
+    const pagosPendientes = "$10,000";
+    const ticketsAbiertos = 5;
+    const ticketsEnProceso = 3;
+    const notificaciones = [
+        "Factura #2023-001 ha sido pagada.",
+        "Nuevo PQRS: Queja de Juan Pérez.",
+        "Recordatorio: Pago pendiente de Cliente A.",
     ];
 
     return (
-        <div className="dashboard-layout">
-            {/* Puedes crear un componente Header para el logo y nombre de la empresa [cite: 76] */}
-            <Header title="CEDEUNION" /> {/* [cite: 76] */}
-            <Sidebar /> {/* Sidebar con enlaces de navegación [cite: 78, 79, 80, 87, 90, 91, 92] */}
+        <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: 'background.default' }}>
+            <Header title="CEDEUNION" />
+            <Sidebar />
 
-            <main className="dashboard-content">
-                <h1>Dashboard</h1> {/* [cite: 77] */}
+            <Box component="main" sx={{ flexGrow: 1, p: 3, mt: '64px' /* Para dejar espacio al Header */ }}>
+                <Typography variant="h4" gutterBottom>
+                    Dashboard
+                </Typography>
 
-                <div className="summary-cards">
-                    <div className="card">
-                        <h3>Total Facturado</h3>
-                        <p>{totalFacturado}</p> {/* [cite: 81] */}
-                    </div>
-                    <div className="card">
-                        <h3>Pagos Pendientes</h3>
-                        <p>{pagosPendientes}</p> {/* [cite: 82] */}
-                    </div>
-                    <div className="card">
-                        <h3>Tickets Abiertos</h3>
-                        <p>{ticketsAbiertos}</p> {/* [cite: 84] */}
-                    </div>
-                    <div className="card">
-                        <h3>Tickets en Proceso</h3>
-                        <p>{ticketsEnProceso}</p> {/* [cite: 85] */}
-                    </div>
-                </div>
+                <Grid container spacing={3} sx={{ mb: 4 }}>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card elevation={3}>
+                            <CardContent>
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    Total Facturado
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                    {totalFacturado}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card elevation={3}>
+                            <CardContent>
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    Pagos Pendientes
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                    {pagosPendientes}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card elevation={3}>
+                            <CardContent>
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    Tickets Abiertos
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                    {ticketsAbiertos}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card elevation={3}>
+                            <CardContent>
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    Tickets en Proceso
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                    {ticketsEnProceso}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
 
-                <div className="dashboard-sections">
-                    <div className="section charts">
-                        <h3>Gráficos de Ventas</h3> {/* [cite: 86, 88] */}
-                        {/* Aquí iría un componente de gráfico real */}
-                        <div className="chart-placeholder">
-                            {/* Simular gráficos de ventas [cite: 89, 93, 94] */}
-                            <p>Gráfico de Ventas Mostrando Tendencias (20%, 50%, 10%)</p>
-                        </div>
-                    </div>
+                <Grid container spacing={3} sx={{ mb: 4 }}>
+                    <Grid item xs={12} md={6}>
+                        <Paper elevation={3} sx={{ p: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                                Gráficos de Ventas
+                            </Typography>
+                            <Box sx={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'grey.200', borderRadius: 2 }}>
+                                <Typography variant="body1" color="text.secondary">
+                                    Gráfico de Ventas Mostrando Tendencias (20%, 50%, 10%)
+                                </Typography>
+                            </Box>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Paper elevation={3} sx={{ p: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                                Notificaciones Recientes
+                            </Typography>
+                            <List>
+                                {notificaciones.map((notif, index) => (
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemText primary={notif} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Paper>
+                    </Grid>
+                </Grid>
 
-                    <div className="section notifications">
-                        <h3>Notificaciones Recientes</h3> {/* [cite: 107] */}
-                        <ul>
-                            {notificaciones.map((notif, index) => (
-                                <li key={index}>{notif}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Acceso Rápido a Módulos (similar al Sidebar, pero puedes tener aquí iconos grandes) */}
-                <div className="quick-access">
-                    <h3>Acceso Rápido</h3>
-                    <Link to="/clientes">Gestión de Clientes</Link> {/* [cite: 27, 78, 100] */}
-                    <Link to="/facturas">Gestión de Facturas</Link> {/* [cite: 28, 79, 101] */}
-                    <Link to="/productos">Gestión de Productos</Link> {/* [cite: 29, 87, 102] */}
-                    <Link to="/pqrs">PQRS</Link> {/* [cite: 30, 90, 104] */}
-                    <Link to="/metodospago">Métodos de Pago</Link> {/* [cite: 90, 103] */}
-                    <Link to="/configuracion">Configuración de Sistema</Link> {/* [cite: 31, 91, 105] */}
-                    <Link to="/usuarios">Gestión de Usuarios y Roles</Link> {/* [cite: 92, 106] */}
-                </div>
-            </main>
-        </div>
+                <Paper elevation={3} sx={{ p: 3 }}>
+                    <Typography variant="h6" gutterBottom>
+                        Acceso Rápido a Módulos
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2 }}>
+                        <Button component={Link} to="/clientes" variant="outlined">Gestión de Clientes</Button>
+                        <Button component={Link} to="/facturas" variant="outlined">Gestión de Facturas</Button>
+                        <Button component={Link} to="/productos" variant="outlined">Gestión de Productos</Button>
+                        <Button component={Link} to="/pqrs" variant="outlined">PQRS</Button>
+                        <Button component={Link} to="/metodospago" variant="outlined">Métodos de Pago</Button>
+                        <Button component={Link} to="/configuracion" variant="outlined">Configuración de Sistema</Button>
+                        <Button component={Link} to="/usuarios" variant="outlined">Gestión de Usuarios y Roles</Button>
+                    </Box>
+                </Paper>
+            </Box>
+        </Box>
     );
 }
 

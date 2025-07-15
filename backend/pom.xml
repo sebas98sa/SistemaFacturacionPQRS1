@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> <!-- busca el padre en el repositorio -->
     </parent>
     <groupId>com.cedeunion</groupId>
     <artifactId>backend</artifactId>
@@ -15,7 +15,7 @@
     <description>Backend para el sistema CEDEUNION</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>17</java.version> <!-- Asegúrate de que esto coincida con tu JDK, o configúralo a 21 para una mejor compatibilidad con 3.2.7 -->
     </properties>
 
     <dependencies>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>1.18.32</version> <!-- Versión actualizada para compatibilidad con JDK 17+ -->
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -64,6 +64,12 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Dependencia para OAuth2 Client -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
 
         <dependency>
