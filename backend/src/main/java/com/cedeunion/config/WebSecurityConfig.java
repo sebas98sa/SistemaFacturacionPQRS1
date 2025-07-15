@@ -1,5 +1,7 @@
+// backend/src/main/java/com/cedeunion/backend/config/WebSecurityConfig.java
 package com.cedeunion.backend.config;
 
+import com.cedeunion.backend.security.JwtRequestFilter; // Importar el filtro JWT
 import com.cedeunion.backend.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // Para añadir el filtro antes de este
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +25,9 @@ public class WebSecurityConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter; // Inyectar el filtro JWT
 
     @Bean
     public AuthenticationManager authenticationManager(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
@@ -34,21 +40,25 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Deshabilita CSRF para APIs REST sin estado
-                .cors(cors -> cors.configure(http)) // Habilita CORS, usando la configuración global de WebConfig
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Permitir acceso público a login, recuperación de contraseña y consola H2
                         .requestMatchers("/api/auth/login", "/api/auth/recuperar-contrasena", "/h2-console/**").permitAll()
+                        // Cualquier otra solicitud a /api/ requiere autenticación
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sesiones sin estado para APIs REST (ej., JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sesiones sin estado
                 )
-                .httpBasic(httpBasic -> httpBasic.disable()) // Deshabilita la autenticación HTTP básica por defecto
-                .formLogin(form -> form.disable()) // Deshabilita el formulario de login por defecto de Spring Security
-                .logout(logout -> logout.disable()); // Deshabilita el logout por defecto
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(form -> form.disable())
+                .logout(logout -> logout.disable())
+                // Añadir nuestro filtro JWT antes del filtro de autenticación de nombre de usuario/contraseña
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Para H2 Console: permite frames para que se muestre correctamente
+        // Para H2 Console: permitir frames
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
