@@ -1,8 +1,9 @@
-// frontend/src/components/Dashboard/Sidebar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 // Importaciones de MUI
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Box } from '@mui/material';
+
 // Iconos de Material-UI (ejemplos)
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
