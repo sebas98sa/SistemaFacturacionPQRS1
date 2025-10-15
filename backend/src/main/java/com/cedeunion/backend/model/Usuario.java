@@ -1,22 +1,30 @@
 package com.cedeunion.backend.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Table(name = "usuario")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String email; // Utilizado para el inicio de sesión [cite: 18]
-
-    @Column(nullable = false)
-    private String password; // Contraseña (debe ser hasheada) [cite: 18]
+    @Column(nullable = false, unique = true)
+    private String email;
 
     private String nombre;
-    private String rol; // Ej: "ADMIN", "USUARIO", "EMPLEADO" [cite: 67]
-    private boolean enabled = true; // Para habilitar/deshabilitar cuentas de usuario
+
+    @Column(nullable = false)
+    private String password;
+
+    private String rol;
+
+    private boolean enabled = true;
 }

@@ -1,36 +1,38 @@
-// frontend/src/components/Auth/LoginForm.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Importaciones de MUI
 import {
-    Box, Button, TextField, Typography, Paper, Link as MuiLink // Renombrar Link para evitar conflicto
+cdcd     Box,
+    Button,
+    TextField,
+    Typography,
+    Paper,
+    Link as MuiLink
 } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google'; // Icono de Google
+import GoogleIcon from '@mui/icons-material/Google';
 
 function LoginForm() {
+    // 👇 Hooks de estado
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    // 👇 Tu función handleSubmit ahora sí tiene acceso a esas variables
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('http://localhost:8081/api/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('userRole', data.userRole);
-                localStorage.setItem('userEmail', data.userEmail);
+                localStorage.setItem('jwtToken', data.token); // tu backend devuelve {token: "..."}
+                localStorage.setItem('userEmail', email);
                 navigate('/dashboard');
             } else {
                 const errorText = await response.text();
@@ -57,7 +59,7 @@ function LoginForm() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '100vh',
-                backgroundColor: 'background.default', // Usar color del tema
+                backgroundColor: 'background.default',
             }}
         >
             <Paper elevation={6} sx={{ padding: 4, borderRadius: 3, textAlign: 'center', width: 350 }}>
@@ -96,12 +98,7 @@ function LoginForm() {
                         onChange={(e) => setPassword(e.target.value)}
                         variant="outlined"
                     />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Iniciar sesión
                     </Button>
                     <MuiLink component="button" variant="body2" onClick={handleForgotPassword} sx={{ mt: 1 }}>
@@ -109,8 +106,14 @@ function LoginForm() {
                     </MuiLink>
                     <Button
                         fullWidth
-                        variant="outlined" // O contained, según tu preferencia
-                        sx={{ mt: 2, mb: 1, backgroundColor: '#4285f4', color: 'white', '&:hover': { backgroundColor: '#357ae8' } }}
+                        variant="outlined"
+                        sx={{
+                            mt: 2,
+                            mb: 1,
+                            backgroundColor: '#4285f4',
+                            color: 'white',
+                            '&:hover': { backgroundColor: '#357ae8' },
+                        }}
                         startIcon={<GoogleIcon />}
                         onClick={handleGoogleLogin}
                     >
